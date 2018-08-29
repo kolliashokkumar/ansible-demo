@@ -1,0 +1,27 @@
+---
+
+- hosts : localhost
+  connection: local
+  gather_facts: false
+  vars:
+    aws_access_key: "<<AWS_ACCOUNT_KEY>>"
+    aws_secret_key: "<<AWS_SECRET>>"
+
+  tasks : 
+     - name : Create EC2 Instance
+       ec2:
+         group: default
+         aws_access_key: "{{ aws_access_key }}"
+         aws_secret_key: "{{ aws_secret_key }}"
+         image: <<IMAGE_ID>>
+         keypair: <<KEY_PAIR_NAME>>
+         wait: yes
+         instance_type: t2.micro
+         group_id: <<GROUP_ID>>
+         region: <<REGION>>
+         count_tag:
+            Name: test-ansible-vm11
+         instance_tags:
+            Name: test_ansible_tag_1
+         exact_count: 1
+       register: ec2

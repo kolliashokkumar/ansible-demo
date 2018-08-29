@@ -1,0 +1,21 @@
+---
+
+- name : Install MYSQL
+  hosts : <<HOST_NAME>>
+  vars :
+     root_db_password : 12345 
+
+  tasks :
+     - name : Download MYSQL
+       get_url:
+          url : http://repo.mysql.com/mysql-community-release-el7-7.noarch.rpm
+          dest : /tmp
+
+     - name : Install MYSQL
+       command: sudo /usr/bin/rpm -ivh /tmp/mysql-community-release-el7-7.noarch.rpm
+
+     - name : Install new
+       command: sudo yum install -y mysql-server
+
+     - name : Start Service
+       command: sudo systemctl start mysqld
